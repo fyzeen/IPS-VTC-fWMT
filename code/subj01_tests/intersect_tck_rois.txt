@@ -1,0 +1,5 @@
+# We start with tck2connectome
+
+tck2connectome vof.tck /Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/rh.floc-faces.projected.subsetted.nii.gz connectome.txt -assignment_radial_search 3 -out_assignments assignments.txt
+
+connectome2tck vof.tck assignments.txt extracted -nodes 0,1,2,3 -exclusive -files per_node 

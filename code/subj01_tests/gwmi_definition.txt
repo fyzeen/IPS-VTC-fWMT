@@ -1,0 +1,10 @@
+## this file contains commands to convert anatomical FreeSurfer surface -> GMWMI
+
+We opt for freesurfer_subj_directory -> 55tt via hsvs. This is described in greater detail: https://www.researchgate.net/publication/342800028_Hybrid_Surface-Volume_Segmentation_for_improved_Anatomically-Constrained_Tractography
+infra04-wg011:~ fyzeen$ 5ttgen "hsvs" "/Applications/freesurfer/7.3.2/subjects/subj01/" "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/5tt.nii.gz" "-nocrop"
+
+We now 5tt.nii.gz -> GMWMI
+infra04-wg011:~ fyzeen$ 5tt2gmwmi "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/5tt.nii.gz" "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/gmwmi.nii.gz"
+
+We now need to binarize the GMWMI (this is done in a python script)
+

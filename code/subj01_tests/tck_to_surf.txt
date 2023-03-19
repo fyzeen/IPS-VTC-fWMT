@@ -1,0 +1,14 @@
+# gets tcks into T1 voxel space
+infra04-wg011:diffusion fyzeen$ tckmap vof.tck vof_ends.nii.gz -template /Users/fyzeen/FyzeenLocal/GitHub/IPS-VTC-fWMT/data/subj01/anat/T1_0pt8_masked.nii.gz -ends_only -contrast tdi -datatype float32
+
+# this is the general command to use to get into surface (vertex space)
+# DOESN'T trilinear interpolation around each vertex at multiple surface depths (uses nearest, take max)
+#projfrac of just -.5 may be a bit conservative -> -2 may be a bit too loose; -1 may be a good middle -- why should it matter, though if we are projecting to 2 anyways...
+infra04-wg011 fyzeen$ mri_vol2surf --src "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/vof_ends.nii.gz" --out "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/out.mgz" --regheader subj01 --hemi "rh" --interp nearest --projfrac-max -0.5 0.7 0.1
+
+# checks: 
+tckmap extracted1.tck extracted1_ends.nii.gz -template /Users/fyzeen/FyzeenLocal/GitHub/IPS-VTC-fWMT/data/subj01/anat/T1_0pt8_masked.nii.gz -ends_only -contrast tdi -datatype float32
+
+mri_vol2surf --src "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/extracted1_ends.nii.gz" --out "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/out.mgz" --regheader subj01 --hemi "rh" --interp trilinear --projfrac-max -0.5 0.7 0.1
+
+mri_vol2surf --src merged_extracted1_ends.nii.gz --out "/Applications/freesurfer/7.3.2/subjects/subj01/fyz-out/extracted1_projfracneg2.mgz" --regheader subj01 --hemi "rh" --interp nearest --projfrac-max -2 0.7 0.1

@@ -1,0 +1,10 @@
+### This txt file includes FreeSurfer commands/notes used for subj01 testing ###
+* Largely based on froi_utils.py in fsub_extractor *
+
+
+Download from AWS:
+infra04-wg011:~ fyzeen$ aws s3 cp --no-sign-request --recursive s3://natural-scenes-dataset/nsddata/freesurfer/subj01 ~/FyzeenLocal #this was later moved to "$SUBJECTS_DIR/subj01/"
+
+
+After downloading all to FreeSurfer subjects directory:
+infra04-wg011:~ fyzeen$ mri_surf2vol --surfval "$SUBJECTS_DIR/subj01/label/rh.floc-faces.mgz" --template "$SUBJECTS_DIR/subj01/mri/aseg.mgz" --fill-projfrac -2 0 0.05 --hemi "rh" --subject "subj01" --identity "subj01" --o "$SUBJECTS_DIR/subj01/fyz-out/rh.floc-faces.projected.nii.gz"
