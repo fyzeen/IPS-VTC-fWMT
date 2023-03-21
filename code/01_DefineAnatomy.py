@@ -4,9 +4,9 @@ from utils.anatomy_utils import *
 import numpy as np
 import os.path as op
 
-subjects_dir = "/Applications/freesurfer/7.3.2/subjects"
-# subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08", "subj09", "subj10"]
-subjects_list = ["subj01", "subj02"]
+subjects_dir = "~/IPS-VTC-fWMT/data/freesurfer"
+subjects_list = ["subj01", "subj02", "subj03",
+                 "subj04", "subj05", "subj06", "subj07", "subj08"]
 hemis = ["lh", "rh"]
 
 floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
@@ -16,14 +16,14 @@ for subj in subjects_list:
     subj_dir = op.join(subjects_dir, subj)
 
     # Define GMWMI for whole brain
-    '''
+
     define_gmwmi(subj_dir, op.join(subj_dir, "fyz", "anatomy", "volumes"))
-    
+
     unbinarized_gmwmi_path = op.join(
         subj_dir, "fyz", "anatomy", "volumes", "gmwmi.nii.gz")
     binarize_gmwmi(unbinarized_gmwmi_path, True,
                    op.join(subj_dir, "fyz", "anatomy", "volumes"))
-    '''
+
     gmwmi_path = op.join(subj_dir, "fyz", "anatomy",
                          "volumes", "gmwmi.binarized.nii.gz")
 
@@ -37,7 +37,7 @@ for subj in subjects_list:
 
         # Determine floc-faces ROIs available for subject
         available_rois = available_floc_rois(floc_rois_path)
-        '''
+
         # Subset and threshold all ROIs #
         # subset kastner atlas
         subset_rois(np.array([18.0, 19.0, 20.0, 21.0]), kastner_rois_path, ".mgz", True,
@@ -73,11 +73,10 @@ for subj in subjects_list:
             proj_outpath = op.join(subj_dir, "fyz", "anatomy", hemi + "-rois",
                                    "all", "floc-faces", thresh)
 
-
-            surfROI_to_WM(roi_file, op.join(subj_dir, "mri", "aseg.mgz"), hemi, subj, proj_outpath)
+            surfROI_to_WM(roi_file, op.join(subj_dir, "mri",
+                          "aseg.mgz"), hemi, subj, proj_outpath)
 
             intersect_roi_gmwmi(wm_ROI_path, gmwmi_path, True, proj_outpath)
-
 
         # Projet all IPS (Kastner) ROIs into WM and intersect with GMWMI
         kastner_subsetted_rois_path = op.join(subj_dir, "fyz", "anatomy", hemi + "-rois",
@@ -112,7 +111,7 @@ for subj in subjects_list:
                                 ".mgz", True, out_path, floc_faces_labels[roi])
                     subset_rois([roi], op.join(in_path, hemi + f".floc-faces.subsetted.thresholded{i+1}.projected.gmwmi_intersected.nii.gz"),
                                 ".nii.gz", True, out_path, floc_faces_labels[roi])
-            
+
         for i in [18.0, 19.0, 20.0, 21.0]:
             in_path = op.join(subj_dir, "fyz", "anatomy",
                               hemi + "-rois", "all", "kastner")
@@ -122,7 +121,7 @@ for subj in subjects_list:
                         ".mgz", True, out_path, kastner_atlas_labels[i])
             subset_rois([i], op.join(in_path, hemi+".Kastner2015.subsetted.projected.gmwmi_intersected.nii.gz"),
                         ".nii.gz", True, out_path, kastner_atlas_labels[i])
-        
+
         # binarize IPS (all) and floc (all) ROIs
         for i, thresh in enumerate(["t>0", "t>2", "t>3"]):
             directory = op.join(subj_dir, "fyz", "anatomy",
@@ -137,7 +136,7 @@ for subj in subjects_list:
                             hemi+"-rois", "all", "kastner")
         binarize_gmwmi(op.join(directory, hemi + ".Kastner2015.subsetted.projected.gmwmi_intersected.nii.gz"),
                        True, directory, binarize_to=18)
-        '''
+
         # Concatenate VTC and IPS ROIs into one volume
         for i, thresh in enumerate(["t>0", "t>2", "t>3"]):
             vtc_dir = op.join(subj_dir, "fyz", "anatomy",

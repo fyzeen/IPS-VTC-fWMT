@@ -5,8 +5,8 @@ import numpy as np
 import os.path as op
 
 subjects_dir = "/Applications/freesurfer/7.3.2/subjects"
-# subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08", "subj09", "subj10"]
-subjects_list = ["subj01", "subj02"]
+subjects_list = ["subj01", "subj02", "subj03", "subj04",
+                 "subj05", "subj06", "subj07", "subj08", "subj09", "subj10"]
 runs = ["run1", "run2"]
 hemis = ["lh", "rh"]
 tck_types = ["vof", "track-merged"]
@@ -18,8 +18,16 @@ for subj in subjects_list:
         for hemi in hemis:
             for tck_type in tck_types:
 
-                tck = op.join(subj_dir, "fyz", "anatomy",
-                              "diffusion", run, tck_type+".tck")
+                if tck_type == "vof":
+                    tck = op.join(subj_dir, "fyz", "anatomy",
+                                  "diffusion", run, tck_type+".tck")
+                else:
+                    if run == "run1":
+                        temp = "run_1"
+                    else:
+                        temp = "run_2"
+                    tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata",
+                                  subj, run, "track", tck_type + ".tck")
 
                 for thresh in ["t>0", "t>2", "t>3"]:
                     rois_base = op.join(

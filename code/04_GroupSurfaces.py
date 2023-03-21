@@ -2,8 +2,8 @@ from utils.group_analysis_utils import *
 from utils.streamline_to_surface_utils import *
 
 subjects_dir = "/Applications/freesurfer/7.3.2/subjects"
-# subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08", "subj09", "subj10"]
-subjects_list = ["subj01", "subj02"]
+subjects_list = ["subj01", "subj02", "subj03",
+                 "subj04", "subj05", "subj06", "subj07", "subj08"]
 runs = ["run1", "run2"]
 hemis = ["lh", "rh"]
 tck_types = ["vof", "track-merged"]
