@@ -5,7 +5,7 @@ addpath("~/IPS-VTC-fWMT/code/utils/mrtrix/");
 
 for i = ["01", "02", "03","04","05","06","07","08"]
     for j = ["run1", "run2"]
-        freesurfer_subj_dir = "/Applications/freesurfer/7.3.2/subjects/";
+        freesurfer_subj_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer";
         diffusion_dir = freesurfer_subj_dir + "subj"+i+"/fyz/anatomy/diffusion/"+j+"/";
         
         if j == "run1"

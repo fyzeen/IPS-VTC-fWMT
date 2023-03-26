@@ -26,8 +26,9 @@ for subj in subjects_list:
                         temp = "run_1"
                     else:
                         temp = "run_2"
-                    tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata",
-                                  subj, run, "track", tck_type + ".tck")
+
+                tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata",
+                              subj, temp, "track", tck_type + ".tck")
 
                 for thresh in ["t>0", "t>2", "t>3"]:
                     rois_base = op.join(
