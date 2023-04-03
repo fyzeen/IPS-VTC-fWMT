@@ -4,7 +4,7 @@ from utils.anatomy_utils import *
 import numpy as np
 import os.path as op
 
-subjects_dir = "~/IPS-VTC-fWMT/data/freesurfer"
+subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
 subjects_list = ["subj01", "subj02", "subj03",
                  "subj04", "subj05", "subj06", "subj07", "subj08"]
 hemis = ["lh", "rh"]
