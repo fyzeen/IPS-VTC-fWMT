@@ -35,6 +35,7 @@ print("loaded gtab")
 # get DWI data into 4D array
 dwi = nib.load(dwi_path)
 dwi_array = dwi.get_fdata()
+dwi = None
 
 print("loaded dwi")
 
