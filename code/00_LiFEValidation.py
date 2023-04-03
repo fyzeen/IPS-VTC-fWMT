@@ -44,13 +44,14 @@ streamlines = sft.streamlines
 
 print("loaded streamlines")
 
+test_streamlines = streamlines[:10]
 model = life.FiberModel(gtab)
-fit = model.fit(dwi_data, streamlines[:10], np.identity(4))
+fit = model.fit(dwi_data, test_streamlines, np.identity(4))
 
 print("fit streamlines model")
 
 model_prediction = fit.predict(gtab)
-out_tracks = streamlines[fit.beta > 0]
+out_tracks = test_streamlines[fit.beta > 0]
 
 print("subsetted tracks")
 
