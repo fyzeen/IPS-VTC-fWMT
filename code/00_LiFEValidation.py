@@ -49,7 +49,7 @@ fit = model.fit(dwi_data, streamlines[:10], np.identity(4))
 
 print("fit streamlines model")
 
-model_prediction = fit.predict(bvec_path)
+model_prediction = fit.predict(gtab)
 out_tracks = streamlines[fit.beta > 0]
 
 print("subsetted tracks")
