@@ -45,7 +45,7 @@ streamlines = sft.streamlines
 print("loaded streamlines")
 
 model = life.FiberModel(gtab)
-fit = model.fit(dwi_array, streamlines, np.identity(4))
+fit = model.fit(dwi_array, streamlines[:10], np.identity(4))
 
 print("fit streamlines model")
 
