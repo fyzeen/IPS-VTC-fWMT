@@ -171,3 +171,18 @@ for subj in subjects_list:
                                op.join(
                                    vtc_dir, hemi+f".floc-faces.subsetted.thresholded{i+1}.projected.gmwmi_intersected.binarized.nii.gz"),
                                "withBinaryVTC", True, op.join(out_dir, thresh))
+
+# Define wholebrain IPS/VTC for track subsetting
+for subj in subjects_list:
+    subj_dir = op.join(subjects_dir, subj)
+    lhVTCIPS = op.join(subj_dir, "fyz", "anatomy", "lh-rois", "all", "kastner+floc",
+                       "t>0", "lh.Kastner2015.subsetted.projected.gmwmi_intersected.withBinaryVTC.nii.gz")
+    rhVTCIPS = op.join(subj_dir, "fyz", "anatomy", "rh-rois", "all", "kastner+floc",
+                       "t>0", "rh.Kastner2015.subsetted.projected.gmwmi_intersected.withBinaryVTC.nii.gz")
+
+    lhrhROIs = concat_volumes(lhVTCIPS, rhVTCIPS, "lh_rh_concatenated")
+    out = image.math_img("np.where(img > 0, 1, 0)", img=lhrhROIs)
+    out_path = op.join(subj_dir, "fyz", "anatomy", "volumes")
+
+    write_nib_file("IPS+VTC.t>0.nii.gz", out_path,
+                   out, ".nii.gz", "wholebrain")

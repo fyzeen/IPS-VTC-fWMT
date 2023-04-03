@@ -6,7 +6,8 @@ def intersect_tck_with_rois(tck_path,
                             gmwmi_rois_path,
                             out_path,
                             nodes_list,
-                            search_type="-assignment_radial_search", search_dist="4"):
+                            search_type="-assignment_radial_search", search_dist="4",
+                            forLiFESubsetting=False):
     '''
     This function intersects track files (.tck) with ROIs restricted to the gray-white matter interface
     ** Note: this function is largely based off of extract_tck_mrtrix() in fsub_extractor **
@@ -48,12 +49,19 @@ def intersect_tck_with_rois(tck_path,
     run_command(tck2connectome_command)
 
     connectom2tck_prefix = op.join(out_path, "node")
-    connectome2tck_command = ["connectome2tck", tck_path,
-                              assignments_txt_path,
-                              connectom2tck_prefix,
-                              "-nodes", nodes_list,
-                              "-files", "per_edge",
-                              "-exclusive"]
+    if forLiFESubsetting:
+        connectome2tck_command = ["connectome2tck", tck_path,
+                                  assignments_txt_path,
+                                  connectom2tck_prefix,
+                                  "-nodes", "1",
+                                  "-keep_self", "-files", "single"]
+    else:
+        connectome2tck_command = ["connectome2tck", tck_path,
+                                  assignments_txt_path,
+                                  connectom2tck_prefix,
+                                  "-nodes", nodes_list,
+                                  "-files", "per_edge",
+                                  "-exclusive"]
     run_command(connectome2tck_command)
 
     return None
