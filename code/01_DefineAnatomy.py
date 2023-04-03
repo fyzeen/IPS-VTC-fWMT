@@ -5,8 +5,8 @@ import numpy as np
 import os.path as op
 
 subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
-subjects_list = ["subj01", "subj02", "subj03",
-                 "subj04", "subj05", "subj06", "subj07", "subj08"]
+#subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
+subjects_list = ["subj01"]
 hemis = ["lh", "rh"]
 
 floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
@@ -23,7 +23,7 @@ for subj in subjects_list:
     print("Defining whole brain GMWMI for: " + subj)
 
     define_gmwmi(subj_dir, op.join(subj_dir, "fyz", "anatomy", "volumes"))
-
+'''
     # Binarizing GMWMI
     print("Defining binarizing GMWMI for: " + subj)
 
@@ -202,3 +202,4 @@ for subj in subjects_list:
 
     write_nib_file("IPS+VTC.t>0.nii.gz", out_path,
                    out, ".nii.gz", "wholebrain")
+'''
