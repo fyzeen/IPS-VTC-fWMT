@@ -13,11 +13,19 @@ floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
 kastner_atlas_labels = {18: "IPS0", 19: "IPS1", 20: "IPS2", 21: "IPS3"}
 
 for subj in subjects_list:
+    print("################################")
+    print("# Defining anatomy for: " + subj + " #")
+    print("################################")
+
     subj_dir = op.join(subjects_dir, subj)
 
     # Define GMWMI for whole brain
+    print("Defining whole brain GMWMI for: " + subj)
 
     define_gmwmi(subj_dir, op.join(subj_dir, "fyz", "anatomy", "volumes"))
+
+    # Binarizing GMWMI
+    print("Defining binarizing GMWMI for: " + subj)
 
     unbinarized_gmwmi_path = op.join(
         subj_dir, "fyz", "anatomy", "volumes", "gmwmi.nii.gz")
@@ -36,14 +44,17 @@ for subj in subjects_list:
             subj_dir, "label", hemi + ".Kastner2015.mgz")
 
         # Determine floc-faces ROIs available for subject
+        print("Determining floc-faces ROIs available for: " + subj)
         available_rois = available_floc_rois(floc_rois_path)
 
         # Subset and threshold all ROIs #
         # subset kastner atlas
+        print("Subsetting Kastner atlas to IPS for: " + subj)
         subset_rois(np.array([18.0, 19.0, 20.0, 21.0]), kastner_rois_path, ".mgz", True,
                     out_path=op.join(subj_dir, "fyz", "anatomy", hemi + "-rois", "all", "kastner"))
 
         # subset and threshold floc-faces
+        print("Subsetting and thresholding floc-faces ROIs for: " + subj)
         subset_rois(available_rois[1], floc_rois_path,
                     ".mgz", True, subsetted_floc_path)
 
@@ -56,7 +67,7 @@ for subj in subjects_list:
                        op.join(subj_dir, "fyz", "anatomy", hemi + "-rois", "all", "floc-faces", "t>3"))
 
         # Project all floc-faces ROIs into WM and intersect all ROIs with GMWMI
-
+        print("### Projecting floc-faces ROIs into WM and intersecting all ROIs with GMWMI for: " + subj + " ###")
         for i, thresh in enumerate(["t>0", "t>2", "t>3"]):
             if i == 0:
                 roi_file = op.join(subj_dir, "fyz", "anatomy", hemi + "-rois", "all", "floc-faces",
@@ -79,6 +90,7 @@ for subj in subjects_list:
             intersect_roi_gmwmi(wm_ROI_path, gmwmi_path, True, proj_outpath)
 
         # Projet all IPS (Kastner) ROIs into WM and intersect with GMWMI
+        print("### Projecting Kastner IPS ROIs into WM and intersecting all ROIs with GMWMI for: " + subj + " ###")
         kastner_subsetted_rois_path = op.join(subj_dir, "fyz", "anatomy", hemi + "-rois",
                                               "all", "kastner", hemi + ".Kastner2015.subsetted.mgz")
 
@@ -92,9 +104,9 @@ for subj in subjects_list:
                                                    hemi + ".Kastner2015.subsetted.projected.nii.gz")
         intersect_roi_gmwmi(kastner_subsetted_projected_path, gmwmi_path,
                             True, kastner_proj_outpath)
-        '''
+
         # put gmwmi-intersected and surface label of each individual floc and kastner ROI into individual ROI folders
-        '''
+        print("Putting gmwmi-intersected and surface label of each individual floc and kastner ROI into individual ROI folders...")
         for roi in available_rois[1]:
             for i, thresh in enumerate(["t>0", "t>2", "t>3"]):
                 in_path = op.join(subj_dir, "fyz", "anatomy",
@@ -172,8 +184,12 @@ for subj in subjects_list:
                                    vtc_dir, hemi+f".floc-faces.subsetted.thresholded{i+1}.projected.gmwmi_intersected.binarized.nii.gz"),
                                "withBinaryVTC", True, op.join(out_dir, thresh))
 
+print("DONE DEFINING ANATOMY")
+
+
 # Define wholebrain IPS/VTC for track subsetting
 for subj in subjects_list:
+    print("Define whole brain, binarized IPS/VTC GMWMI for track segmentation for :" + subj)
     subj_dir = op.join(subjects_dir, subj)
     lhVTCIPS = op.join(subj_dir, "fyz", "anatomy", "lh-rois", "all", "kastner+floc",
                        "t>0", "lh.Kastner2015.subsetted.projected.gmwmi_intersected.withBinaryVTC.nii.gz")

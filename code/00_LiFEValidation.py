@@ -2,7 +2,7 @@ import os.path as op
 import numpy as np
 from dipy.core.gradients import gradient_table
 from dipy.io.gradients import read_bvals_bvecs
-from dipy.io.image import load_nifti_data, load_nifti
+from dipy.io.image import load_nifti
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.tracking import life
@@ -50,7 +50,7 @@ fit = model.fit(dwi_data, test_streamlines, np.identity(4))
 
 print("fit streamlines model")
 
-model_prediction = fit.predict(gtab)
+#model_prediction = fit.predict(gtab)
 out_tracks = test_streamlines[fit.beta > 0]
 
 print("subsetted tracks")
