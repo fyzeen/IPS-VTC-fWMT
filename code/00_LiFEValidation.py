@@ -1,7 +1,8 @@
 import os.path as op
 import numpy as np
-import nibabel as nib
-from dipy.data import gradient_table
+from dipy.core.gradients import gradient_table
+from dipy.io.gradients import read_bvals_bvecs
+from dipy.io.image import load_nifti_data, load_nifti
 from dipy.io.streamline import load_tractogram, save_tractogram
 from dipy.io.stateful_tractogram import Space, StatefulTractogram
 from dipy.tracking import life
@@ -28,14 +29,13 @@ tracks_path = op.join(subjects_dir, "subj01", "fyz",
 
 print("loaded all paths")
 
-gtab = gradient_table(bval_path, bvec_path)
+bvals, bvecs = read_bvals_bvecs(bval_path, bvec_path)
+gtab = gradient_table(bvals, bvecs)
 
 print("loaded gtab")
 
 # get DWI data into 4D array
-dwi = nib.load(dwi_path)
-dwi_array = dwi.get_fdata()
-dwi = None
+dwi_data, affine, dwi_img = load_nifti(dwi_path, return_img=True)
 
 print("loaded dwi")
 
@@ -45,7 +45,7 @@ streamlines = sft.streamlines
 print("loaded streamlines")
 
 model = life.FiberModel(gtab)
-fit = model.fit(dwi_array, streamlines[:10], np.identity(4))
+fit = model.fit(dwi_data, streamlines[:10], np.identity(4))
 
 print("fit streamlines model")
 
