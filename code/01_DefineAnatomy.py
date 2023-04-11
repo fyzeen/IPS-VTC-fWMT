@@ -5,8 +5,7 @@ import numpy as np
 import os.path as op
 
 subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
-#subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
-subjects_list = ["subj01"]
+subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
 hemis = ["lh", "rh"]
 
 floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
@@ -18,12 +17,12 @@ for subj in subjects_list:
     print("################################")
 
     subj_dir = op.join(subjects_dir, subj)
-
+    
     # Define GMWMI for whole brain
     print("Defining whole brain GMWMI for: " + subj)
 
     define_gmwmi(subj_dir, op.join(subj_dir, "fyz", "anatomy", "volumes"))
-'''
+    
     # Binarizing GMWMI
     print("Defining binarizing GMWMI for: " + subj)
 
@@ -31,10 +30,10 @@ for subj in subjects_list:
         subj_dir, "fyz", "anatomy", "volumes", "gmwmi.nii.gz")
     binarize_gmwmi(unbinarized_gmwmi_path, True,
                    op.join(subj_dir, "fyz", "anatomy", "volumes"))
-
+    
     gmwmi_path = op.join(subj_dir, "fyz", "anatomy",
                          "volumes", "gmwmi.binarized.nii.gz")
-
+    
     for hemi in hemis:
 
         floc_rois_path = op.join(subj_dir, "label", hemi + ".floc-faces.mgz")
@@ -55,8 +54,9 @@ for subj in subjects_list:
 
         # subset and threshold floc-faces
         print("Subsetting and thresholding floc-faces ROIs for: " + subj)
+        subsetted_floc_out_path = op.join(subj_dir, "fyz", "anatomy", hemi + "-rois", "all", "floc-faces", "t>0")
         subset_rois(available_rois[1], floc_rois_path,
-                    ".mgz", True, subsetted_floc_path)
+                    ".mgz", True, subsetted_floc_out_path)
 
         subsetted_floc_path = op.join(
             subj_dir, "fyz", "anatomy", hemi + "-rois", "all", "floc-faces", "t>0", hemi + ".floc-faces.subsetted.mgz")
@@ -202,4 +202,4 @@ for subj in subjects_list:
 
     write_nib_file("IPS+VTC.t>0.nii.gz", out_path,
                    out, ".nii.gz", "wholebrain")
-'''
+

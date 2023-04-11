@@ -5,9 +5,8 @@ import os.path as op
 import os
 import subprocess
 
-subjects_dir = "/Applications/freesurfer/7.3.2/subjects"
-subjects_list = ["subj01", "subj02", "subj03",
-                 "subj04", "subj05", "subj06", "subj07", "subj08"]
+subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
+subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
 runs = ["run1", "run2"]
 hemis = ["lh", "rh"]
 tck_types = ["vof", "track-merged"]
@@ -15,12 +14,15 @@ thresh = "t>3"
 
 for subj in subjects_list:
     subj_dir = op.join(subjects_dir, subj)
-    T1_path = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata",
-                      "ppdata", subj, "anat", "T1_0pt8_masked.nii.gz")
+    T1_path = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata", "ppdata", subj, "anat", "T1_0pt8_masked.nii.gz")
 
     for run in runs:
         for hemi in hemis:
             for tck_type in tck_types:
+                print("##########")
+                print(f"# {subj} {run} {tck_type} {hemi} #")
+                print("##########")
+                
                 # VTC ROIs to whole IPS
                 tck_path = op.join(subj_dir, "fyz", run, hemi,
                                    "VTCtoWholeIPS", thresh, tck_type)
@@ -29,6 +31,7 @@ for subj in subjects_list:
                 tck_list = str(out)[2:-3].split()
 
                 for tck in tck_list:
+                    print("VTCtoWholeIPS " + tck)
                     streamlines_to_surface(
                         op.join(tck_path, tck), T1_path, tck_path, subj, hemi)
 
@@ -45,6 +48,7 @@ for subj in subjects_list:
                 tck_list = str(out)[2:-3].split()
 
                 for tck in tck_list:
+                    print("All " + tck)
                     streamlines_to_surface(
                         op.join(tck_path, tck), T1_path, tck_path, subj, hemi)
 

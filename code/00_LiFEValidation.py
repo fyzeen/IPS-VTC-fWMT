@@ -1,3 +1,6 @@
+##### UNUSED SCRIPT #####
+
+
 import os.path as op
 import numpy as np
 from dipy.core.gradients import gradient_table
@@ -24,10 +27,12 @@ diffusion_path = "/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata/s
 bvec_path = op.join(diffusion_path, "dwi", "dwi.bvecs")
 bval_path = op.join(diffusion_path, "dwi", "dwi.bvals")
 dwi_path = op.join(diffusion_path, "dwi", "dwi.nii.gz")
-tracks_path = op.join(subjects_dir, "subj01", "fyz",
-                      "anatomy", "diffusion", "run1", "LiFE", "node1.tck")
+# If using node1.tck: 
+    #tracks_path = op.join(subjects_dir, "subj01", "fyz", "anatomy", "diffusion", "run1", "LiFE", "node1.tck")
+tracks_path = op.join(subjects_dir, "subj01", "fyz", "run1", "lh", "all", "t>3", "track-merged", "node2-19.tck")
 
 print("loaded all paths")
+
 
 bvals, bvecs = read_bvals_bvecs(bval_path, bvec_path)
 gtab = gradient_table(bvals, bvecs)
@@ -44,21 +49,42 @@ streamlines = sft.streamlines
 
 print("loaded streamlines")
 
-test_streamlines = streamlines[:10]
 model = life.FiberModel(gtab)
-fit = model.fit(dwi_data, test_streamlines, np.identity(4))
+fit = model.fit(dwi_data, streamlines, np.identity(4))
 
 print("fit streamlines model")
 
 #model_prediction = fit.predict(gtab)
-out_tracks = test_streamlines[fit.beta > 0]
+out_tracks = streamlines[fit.beta > 0]
 
 print("subsetted tracks")
+
+print("Numeber remaining streamlines = " + str(len(out_tracks)))
 
 out_sft = StatefulTractogram(out_tracks, dwi_path, Space.VOX)
 
 print("created out_sft from out_tracks")
 
-save_tractogram(out_sft, "~/IPS-VTC-fWMT/subj01_life.tck")
+save_tractogram(out_sft, "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/node2-19_LiFE.tck", bbox_valid_check=False)
 
 print("saved tracks")
+
+
+from utils.streamline_to_surface_utils import *
+from utils.surface_label_utils import *
+
+T1_path = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata", "ppdata", "subj01", "anat", "T1_0pt8_masked.nii.gz")
+subj_dir = op.join(subjects_dir, "subj01")
+tck_path = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/"
+tck = "node2-19_LiFE.tck"
+subj = "subj01"
+hemi = "lh"
+
+streamlines_to_surface(op.join(tck_path, tck), T1_path, tck_path, subj, hemi)
+
+intersect_surf_labels(op.join(tck_path, tck[:-4]+".endpoints.mgz"),
+                      op.join(subj_dir, "fyz", "anatomy", hemi+"-rois",
+                              "all", "kastner", hemi+".Kastner2015.subsetted.mgz"),
+                      True, tck_path, "IPS-intersected")
+
+
