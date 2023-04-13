@@ -38,7 +38,7 @@ def streamlines_to_surface(tck_path, T1_path, out_path, freesurfer_subject, hemi
                       "-template", T1_path,
                       "-ends_only",
                       "-contrast", "tdi",
-                      "-datatype", "float32"]
+                      "-datatype", "float32", "-force"]
     run_command(tckmap_command)
 
     surface_filename = op.basename(tck_endpoints_path)
