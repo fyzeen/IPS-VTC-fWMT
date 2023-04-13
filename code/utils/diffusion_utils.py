@@ -6,7 +6,7 @@ def intersect_tck_with_rois(tck_path,
                             gmwmi_rois_path,
                             out_path,
                             nodes_list,
-                            search_type="-assignment_radial_search", search_dist="4",
+                            search_type="-assignment_radial_search", search_dist="3",
                             forLiFESubsetting=False):
     '''
     This function intersects track files (.tck) with ROIs restricted to the gray-white matter interface
