@@ -50,7 +50,7 @@ def streamlines_to_surface(tck_path, T1_path, out_path, freesurfer_subject, hemi
                            "--regheader", freesurfer_subject,
                            "--hemi", hemi,
                            "--interp", "nearest",
-                           "--projfrac-max", "-2", "0.7", "0.1"]
+                           "--projfrac-max", "-0.5", "0.5", "0.1"]
     run_command(mrivol2surf_command)
 
     return None
