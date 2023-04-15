@@ -181,7 +181,7 @@ def subset_rois(roi_list, input_roi_file, type, write_file=False, out_path=None,
 def smooth_surf_labels(surf_path, out_path, freesurfer_subj, hemi):
     file_name = surf_path.replace(".mgz", ".smoothed.mgz")
     file_name = op.basename(file_name)
-    out_file = out_path + file_name
+    out_file = op.join(out_path, file_name)
 
     smoothing_command = ["mri_surf2surf",
                          "--srcsurfval", surf_path,
@@ -189,7 +189,7 @@ def smooth_surf_labels(surf_path, out_path, freesurfer_subj, hemi):
                          "--trgsubject", freesurfer_subj,
                          "--trgsurfval", out_file,
                          "--hemi", hemi,
-                         "--nsmooth-out", "4"]
+                         "--nsmooth-out", "7"]
     run_command(smoothing_command)
     return None
 
