@@ -45,7 +45,7 @@ def intersect_tck_with_rois(tck_path,
                               gmwmi_rois_path,
                               connectome_txt_path,
                               search_type, search_dist,
-                              "-out_assignments", assignments_txt_path]
+                              "-out_assignments", assignments_txt_path, "-force"]
     run_command(tck2connectome_command)
 
     connectom2tck_prefix = op.join(out_path, "node")
@@ -54,14 +54,14 @@ def intersect_tck_with_rois(tck_path,
                                   assignments_txt_path,
                                   connectom2tck_prefix,
                                   "-nodes", "1",
-                                  "-keep_self", "-files", "single"]
+                                  "-keep_self", "-files", "single", "-force"]
     else:
         connectome2tck_command = ["connectome2tck", tck_path,
                                   assignments_txt_path,
                                   connectom2tck_prefix,
                                   "-nodes", nodes_list,
                                   "-files", "per_edge",
-                                  "-exclusive"]
+                                  "-exclusive", "-force"]
     run_command(connectome2tck_command)
 
     return None

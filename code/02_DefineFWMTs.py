@@ -8,7 +8,7 @@ subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
 subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
 runs = ["run1", "run2"]
 hemis = ["lh", "rh"]
-tck_types = ["vof", "track-merged"]
+tck_types = ["track-merged"]
 
 for subj in subjects_list:
     print("################################")
@@ -33,7 +33,7 @@ for subj in subjects_list:
                     tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata", subj, 
                                   temp, "track", tck_type + ".tck")
 
-                for thresh in ["t>0", "t>2", "t>3"]:
+                for thresh in ["t>3"]:
                     print("#########")
                     print("# " + tck_type + ", " + run + ", " + thresh + " #")
                     print("#########")
