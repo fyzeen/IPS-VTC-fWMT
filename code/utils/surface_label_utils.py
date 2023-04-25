@@ -2,6 +2,7 @@ from utils.system_utils import *
 import os.path as op
 import numpy as np
 import nibabel.freesurfer.mghformat as fsmgh
+import nibabel.freesurfer.io as fsio
 from nilearn import image
 
 
@@ -238,3 +239,19 @@ def concat_surflabels(label1_path, label2_path, write_file=False, out_path=None,
                        out, ".mgz", change_label)
 
     return out, out_array
+
+
+def de_intersect_surflabels(label_path, roi_path, write_file=False, out_path=None, change_label="cleaned"):
+    label = fsio.read_label(label_path)  # this must be a .label file
+    roi_img = fsmgh.load(roi_path)
+    roi_img_array = np.asarray(roi_img.dataobj)
+    roi_img_array[label] = 0
+
+    out = fsmgh.MGHImage(roi_img_array, roi_img.affine,
+                         header=roi_img.header, extra=roi_img.extra)
+
+    if write_file:
+        write_nib_file(roi_path, out_path,
+                       out, ".mgz", change_label)
+
+    return out, roi_img_array
