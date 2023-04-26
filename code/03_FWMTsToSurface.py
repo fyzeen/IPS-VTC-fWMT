@@ -6,8 +6,8 @@ import os
 import subprocess
 
 subjects_dir = "/home/naxos2-raid25/ahmad262/IPS-VTC-fWMT/data/freesurfer"
-#subjects_list = ["subj01", "subj02", "subj03", "subj04", "subj05", "subj06", "subj07", "subj08"]
-subjects_list = ["subj08"]
+subjects_list = ["subj01", "subj02", "subj03",
+                 "subj04", "subj05", "subj06", "subj07", "subj08"]
 runs = ["run1", "run2"]
 hemis = ["lh", "rh"]
 tck_types = ["vof", "track-merged"]
