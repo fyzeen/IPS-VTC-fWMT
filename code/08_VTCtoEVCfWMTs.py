@@ -86,7 +86,7 @@ for subj in subjects_list:
             evc_folder = op.join(subj_dir, "fyz", "anatomy",
                                  hemi+"-rois", "EVC")
             all_rois = op.join(evc_folder,
-                               hemi+".prf-eccrois.projected.gmwmi_intersected.withVTCrois.nii.gz")
+                               hemi+".prf-eccrois.projected.gmwmi_intersected.binarized.withVTCrois.nii.gz")
 
             all_rois_out = op.join(out_base, "EVC")
             all_rois_nodes = available_flocfaces_rois[1] + [10]
