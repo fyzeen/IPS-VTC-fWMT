@@ -18,6 +18,7 @@ runs = ["run1", "run2"]
 
 
 # DEFINE ANATOMY
+'''
 for subj in subjects_list:
     print("################################")
     print("# Defining anatomy for: " + subj + " #")
@@ -52,6 +53,7 @@ for subj in subjects_list:
                                       hemi+".prf-eccrois.projected.gmwmi_intersected.binarized.nii.gz")
         concat_volumes(evc_gmwmi_binarized, floc_face_gmwmi,
                        "withVTCrois", True, evc_folder)
+'''
 
 # define FWMTs from VTC ROIs to WHOLE EVC (requires binary)
 for subj in subjects_list:
@@ -66,30 +68,33 @@ for subj in subjects_list:
             print("# " + hemi + " #")
             print("#########")
 
-        if run == "run1":
-            temp = "run_1"
-        else:
-            temp = "run_2"
-        tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata", subj,
-                      temp, "track", "track-merged" + ".tck")
+            if run == "run1":
+                temp = "run_1"
+            else:
+                temp = "run_2"
+            tck = op.join("/home/surly-raid1/kendrick-data/nsd/nsddata_diffusion/ppdata", subj,
+                          temp, "track", "track-merged" + ".tck")
 
-        print("#########")
-        print("# " + "track-merged" + ", " + run + ", " + "t>3" + " #")
-        print("#########")
+            print("#########")
+            print("# " + "track-merged" + ", " + run + ", " + hemi + " #")
+            print("#########")
 
-        available_flocfaces_rois = available_floc_rois(op.join(
-            subj_dir, "fyz", "anatomy", hemi+"-rois", "all", "floc-faces", "t>3", hemi+".floc-faces.subsetted.mgz"))
+            available_flocfaces_rois = available_floc_rois(op.join(
+                subj_dir, "fyz", "anatomy", hemi+"-rois", "all", "floc-faces", "t>0", hemi+".floc-faces.subsetted.mgz"))
 
-        out_base = op.join(subj_dir, "fyz", run, hemi)
-        evc_folder = op.join(subj_dir, "fyz", "anatomy", hemi+"-rois", "EVC")
-        all_rois = op.join(evc_folder,
-                           hemi+".prf-eccrois.projected.gmwmi_intersected.withVTC.nii.gz")
+            out_base = op.join(subj_dir, "fyz", run, hemi)
+            evc_folder = op.join(
+                subj_dir, "fyz", "anatomy", hemi+"-rois", "EVC")
+            all_rois = op.join(evc_folder,
+                               hemi+".prf-eccrois.projected.gmwmi_intersected.withVTC.nii.gz")
 
-        all_rois_out = op.join(out_base, "EVC")
-        all_rois_nodes = available_flocfaces_rois[1] + [10]
-        all_rois_nodes = ", ".join(str(int(node)) for node in all_rois_nodes)
+            all_rois_out = op.join(out_base, "EVC")
+            all_rois_nodes = available_flocfaces_rois[1] + [10]
+            all_rois_nodes = ", ".join(str(int(node))
+                                       for node in all_rois_nodes)
 
-        intersect_tck_with_rois(tck, all_rois, all_rois_out, all_rois_nodes)
+            intersect_tck_with_rois(
+                tck, all_rois, all_rois_out, all_rois_nodes)
 
 
 # We will use hemi.prf-eccrois.mgz OR smoothed pRF eccentricities for associating eccentricites to streamline endpoints ONLY
