@@ -78,7 +78,7 @@ for subj in subjects_list:
         print("#########")
 
         available_flocfaces_rois = available_floc_rois(op.join(
-            subj_dir, "fyz", "anatomy", hemi+"-rois", "all", "floc-faces", "t>0", hemi+".floc-faces.subsetted.mgz"))
+            subj_dir, "fyz", "anatomy", hemi+"-rois", "all", "floc-faces", "t>3", hemi+".floc-faces.subsetted.mgz"))
 
         out_base = op.join(subj_dir, "fyz", run, hemi)
         evc_folder = op.join(subj_dir, "fyz", "anatomy", hemi+"-rois", "EVC")
