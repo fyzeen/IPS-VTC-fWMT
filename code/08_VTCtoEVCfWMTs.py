@@ -36,20 +36,20 @@ for subj in subjects_list:
                       hemi, subj, evc_folder)
 
         evc_projected_path = op.join(
-            evc_folder, "prf-eccrois.projected.nii.gz")
+            evc_folder, hemi+".prf-eccrois.projected.nii.gz")
         intersect_roi_gmwmi(evc_projected_path, gmwmi_path,
                             True, evc_folder)
 
         # binarize EVC ROI
         evc_gmwmi = op.join(evc_folder,
-                            "prf-eccrois.projected.gmwmi_intersected.nii.gz")
+                            hemi+".prf-eccrois.projected.gmwmi_intersected.nii.gz")
         binarize_gmwmi(evc_gmwmi, True, evc_folder, binarize_to=10)
 
         # concatenate with GMWMI-intersected VTC
         floc_face_gmwmi = op.join(subj_dir, "fyz", "anatomy", hemi+"-rois", "all", "floc-faces",
                                   "t>3", hemi+".floc-faces.subsetted.thresholded3.projected.gmwmi_intersected.nii.gz")
         evc_gmwmi_binarized = op.join(evc_folder,
-                                      "prf-eccrois.projected.gmwmi_intersected.binarized.nii.gz")
+                                      hemi+".prf-eccrois.projected.gmwmi_intersected.binarized.nii.gz")
         concat_volumes(evc_gmwmi_binarized, floc_face_gmwmi,
                        "withVTCrois", True, evc_folder)
 
