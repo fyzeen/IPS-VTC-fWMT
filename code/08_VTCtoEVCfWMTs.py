@@ -24,9 +24,10 @@ for subj in subjects_list:
     subj_dir = op.join(subjects_dir, subj)
 
     for hemi in hemis:
-        # binarize EVC ROI?
+        # binarize EVC ROI
         # project EVC ROI to GMWMI
 
         # concatenate with GMWMI-intersected VTC
 
-        # define FWMTs from VTC to EVC
+        # define FWMTs from VTC ROIs to WHOLE EVC (requires binary)
+        # We will use hemi.prf-eccrois.mgz for associating eccentricites to streamline endpoints ONLY
