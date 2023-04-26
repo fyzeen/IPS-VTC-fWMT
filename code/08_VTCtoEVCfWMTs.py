@@ -53,7 +53,6 @@ for subj in subjects_list:
                                       hemi+".prf-eccrois.projected.gmwmi_intersected.binarized.nii.gz")
         concat_volumes(evc_gmwmi_binarized, floc_face_gmwmi,
                        "withVTCrois", True, evc_folder)
-'''
 
 # define FWMTs from VTC ROIs to WHOLE EVC (requires binary)
 for subj in subjects_list:
@@ -95,6 +94,7 @@ for subj in subjects_list:
 
             intersect_tck_with_rois(
                 tck, all_rois, all_rois_out, all_rois_nodes)
+'''
 
 
 # We will use hemi.prf-eccrois.mgz OR smoothed pRF eccentricities for associating eccentricites to streamline endpoints ONLY
@@ -111,7 +111,7 @@ for subj in subjects_list:
 
             tck_path = op.join(subj_dir, "fyz", run, hemi, "EVC")
             os.chdir(tck_path)
-            out = subprocess.check_output("echo node*-18.tck", shell=True)
+            out = subprocess.check_output("echo node*-10.tck", shell=True)
             tck_list = str(out)[2:-3].split()
 
             for tck in tck_list:
