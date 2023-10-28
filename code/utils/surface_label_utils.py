@@ -196,12 +196,13 @@ def smooth_surf_labels(surf_path, out_path, freesurfer_subj, hemi):
 
 
 def available_floc_rois(surf_labels_path):
-    floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
+    #floc_faces_labels = {1: "OFA", 2: "FFA1", 3: "FFA2"}
+    floc_words_labels = {1: "OWFA", 2:"VWFA-1", 3:"VWFA-2"}
     input = fsmgh.load(surf_labels_path)
     input_array = np.asarray(input.dataobj)
     check = np.unique(input_array)
-    out = [floc_faces_labels[i] for i in check if i in floc_faces_labels]
-    out_nums = [i for i in check if i in floc_faces_labels]
+    out = [floc_words_labels[i] for i in check if i in floc_words_labels]
+    out_nums = [i for i in check if i in floc_words_labels]
     return out, out_nums
 
 
